@@ -30,7 +30,7 @@
           <input
             name={key}
             placeholder={label}
-            class="ability"
+            class="field"
             type="number"
             min={config.attributes.min}
             max={config.attributes.max}
@@ -78,7 +78,7 @@
         <input
           name={key}
           placeholder={label}
-          class="ability"
+          class="field"
           type="number"
           min={config.abilities.min}
           max={config.abilities.max}
@@ -92,7 +92,7 @@
 </main>
 
 <style>
-  .ability {
+  .field {
     width: 80px;
     --border-color: none;
   }
