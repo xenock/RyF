@@ -23,18 +23,19 @@
 
 <main class="container-fluid">
   <header>
-    <section>
+    <section class="attributes">
       {#each Object.entries(attributes) as [key, { label }], index}
         <label for={key}>
+          {label}
           <input
             name={key}
             placeholder={label}
+            class="ability"
             type="number"
             min={config.attributes.min}
             max={config.attributes.max}
             bind:value={attributeValues[key]}
           />
-          {label}
         </label>
       {/each}
     </section>
@@ -94,6 +95,11 @@
   .ability {
     width: 80px;
     --border-color: none;
+  }
+
+  .attributes {
+    display: flex;
+    justify-content: space-between;
   }
 
   .abilities {
