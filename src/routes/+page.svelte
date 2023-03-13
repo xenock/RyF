@@ -1,11 +1,24 @@
 <script>
-  import { attributes, abilities, config } from '$lib/data.js';
-  let pyramid;
-  let attributeValues = {};
-  let abilitiesValues = {};
-$: console.log(`attributeValues ${JSON.stringify(attributeValues)}`);
-  $: console.log(`pyramid es ${pyramid}`);
-  $: console.log(`abilitiesValues ${JSON.stringify(abilitiesValues)}`);
+  import { attributes, abilities, config } from '$lib/data.js'
+  let pyramid
+  let attributeValues = {}
+  let abilitiesValues = {}
+
+  const group = (entries) => {
+    if (!entries) return null
+    return Object.entries(entries).reduce((group, [ability, value]) => {
+      return {
+        ...group,
+        [value]: [...(group[value] || []), ability],
+      }
+    }, {})
+  }
+
+  $: groupedAbilities = group(abilitiesValues)
+  $: console.log(`%cgroupedAbilities ${JSON.stringify(groupedAbilities)}`, 'color: green')
+  $: console.log(`%cattributeValues ${JSON.stringify(attributeValues)}`, 'color: red')
+  $: console.log(`%cpyramid es ${pyramid}`, 'color: orange')
+  $: console.log(`%cabilitiesValues ${JSON.stringify(abilitiesValues)}`, 'color: cyan')
 </script>
 
 <main class="container-fluid">
@@ -38,9 +51,21 @@ $: console.log(`attributeValues ${JSON.stringify(attributeValues)}`);
       {#if pyramid}
         {#each config.pyramid[pyramid]?.values as value, index}
           <div>
-            <p>
+            <p
+              class:limit={groupedAbilities[index + 1]?.length === value}
+              class:off={groupedAbilities[index + 1]?.length > value}
+            >
               {value} habilidades de nivel {index + 1} :
             </p>
+            {#if groupedAbilities[index + 1]}
+              <ul>
+                {#each groupedAbilities[index + 1] as abilityKey, index}
+                  <li>
+                    {abilities.actual.find((ability) => ability.key === abilityKey).label}
+                  </li>
+                {/each}
+              </ul>
+            {/if}
           </div>
         {/each}
       {/if}
@@ -58,7 +83,8 @@ $: console.log(`attributeValues ${JSON.stringify(attributeValues)}`);
           max={config.abilities.max}
           bind:value={abilitiesValues[key]}
         />
-        {label} {(attributeValues[attribute] || 0) + (abilitiesValues[key] || 0)}
+        {label}
+        {(attributeValues[attribute] || 0) + (abilitiesValues[key] || 0)}
       </label>
     {/each}
   </section>
@@ -72,5 +98,13 @@ $: console.log(`attributeValues ${JSON.stringify(attributeValues)}`);
 
   .abilities {
     columns: 2;
+  }
+
+  .limit {
+    color: green;
+  }
+
+  .off {
+    color: red;
   }
 </style>
