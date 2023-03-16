@@ -1,30 +1,24 @@
 <script>
-  import { attributes, abilities, config } from '$lib/data.js'
+  import { attributes, abilities, config, combat } from '$lib/data.js'
   let pyramid
-  let attributeValues = {}
-  let abilitiesValues = {}
 
   const group = (entries) => {
     if (!entries) return null
-    return Object.entries(entries).reduce((group, [ability, value]) => {
+    return Object.entries(entries).reduce((group, [, ability]) => {
       return {
         ...group,
-        [value]: [...(group[value] || []), ability],
+        [ability.value]: [...(group[ability.value] || []), ability],
       }
     }, {})
   }
 
-  $: groupedAbilities = group(abilitiesValues)
-  $: console.log(`%cgroupedAbilities ${JSON.stringify(groupedAbilities)}`, 'color: green')
-  $: console.log(`%cattributeValues ${JSON.stringify(attributeValues)}`, 'color: red')
-  $: console.log(`%cpyramid es ${pyramid}`, 'color: orange')
-  $: console.log(`%cabilitiesValues ${JSON.stringify(abilitiesValues)}`, 'color: cyan')
+  $: groupedAbilities = group(abilities.actual)
 </script>
 
 <main class="container-fluid">
   <header>
     <section class="attributes">
-      {#each Object.entries(attributes) as [key, { label }], index}
+      {#each Object.entries(attributes) as [key, { label, value }], index}
         <label for={key}>
           {label}
           <input
@@ -34,7 +28,7 @@
             type="number"
             min={config.attributes.min}
             max={config.attributes.max}
-            bind:value={attributeValues[key]}
+            bind:value
           />
         </label>
       {/each}
@@ -60,7 +54,7 @@
             </p>
             {#if groupedAbilities[index + 1]}
               <ul>
-                {#each groupedAbilities[index + 1] as abilityKey, index}
+                {#each groupedAbilities[index + 1] as { key: abilityKey }, index}
                   <li>
                     {abilities.actual.find((ability) => ability.key === abilityKey).label}
                   </li>
@@ -73,7 +67,7 @@
     </fieldset>
   </section>
   <section class="abilities">
-    {#each abilities.actual as { key, label, attribute }, index}
+    {#each abilities.actual as { key, label, attribute, value }, index}
       <label for={key}>
         <input
           name={key}
@@ -82,10 +76,18 @@
           type="number"
           min={config.abilities.min}
           max={config.abilities.max}
-          bind:value={abilitiesValues[key]}
+          bind:value
         />
         {label}
-        {(attributeValues[attribute] || 0) + (abilitiesValues[key] || 0)}
+        {attributes[attribute].value + value}
+      </label>
+    {/each}
+  </section>
+  <section>
+    {#each Object.entries(combat) as [key, { label }]}
+      <label for={key}>
+        {label}
+        <input name={key} placeholder={label} class="field" type="number" />
       </label>
     {/each}
   </section>
