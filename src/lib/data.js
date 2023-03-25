@@ -7,21 +7,19 @@ export const config = {
     min: 0,
     max: 10,
   },
-  points: {
-    realistic: 22,
-    normal: 30,
-  },
   pyramid: {
     specialistHeroic: {
       label: 'Especialista heroico',
-      values: [3, 3, 3, 3, 3, 1],
+      abilities: [3, 3, 3, 3, 3, 1],
+      attributes: 30,
     },
-    versatileHeroic: { label: 'Versátil heroico', values: [6, 5, 4, 3, 2, 1] },
+    versatileHeroic: { label: 'Versátil heroico', abilities: [6, 5, 4, 3, 2, 1], attributes: 30 },
     specialistRealistic: {
       label: 'Especialista realista',
-      values: [2, 2, 2, 2, 2],
+      abilities: [2, 2, 2, 2, 2],
+      attributes: 22,
     },
-    versatileRealistic: { label: 'Versátil realista', values: [5, 4, 3, 2, 1] },
+    versatileRealistic: { label: 'Versátil realista', abilities: [5, 4, 3, 2, 1], attributes: 22 },
   },
 }
 
