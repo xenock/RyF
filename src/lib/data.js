@@ -7,23 +7,40 @@ export const config = {
     min: 0,
     max: 10,
   },
+  theme: {
+    actual: 'Actual',
+    medieval: 'Medieval',
+    scifi: 'Ciencia Ficcion',
+  },
   pyramid: {
     specialistHeroic: {
       label: 'Especialista heroico',
       abilities: [3, 3, 3, 3, 3, 1],
       attributes: 30,
+      physical: 4,
     },
-    versatileHeroic: { label: 'Versátil heroico', abilities: [6, 5, 4, 3, 2, 1], attributes: 30 },
+    versatileHeroic: {
+      label: 'Versátil heroico',
+      abilities: [6, 5, 4, 3, 2, 1],
+      attributes: 30,
+      physical: 4,
+    },
     specialistRealistic: {
       label: 'Especialista realista',
       abilities: [2, 2, 2, 2, 2],
       attributes: 22,
+      physical: 3,
     },
-    versatileRealistic: { label: 'Versátil realista', abilities: [5, 4, 3, 2, 1], attributes: 22 },
+    versatileRealistic: {
+      label: 'Versátil realista',
+      abilities: [5, 4, 3, 2, 1],
+      attributes: 22,
+      physical: 3,
+    },
   },
 }
 
-export const attributes = {
+export let attributes = {
   physical: {
     label: 'Físico',
     value: config.attributes.min,
